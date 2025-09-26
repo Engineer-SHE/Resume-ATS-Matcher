@@ -1,3 +1,5 @@
+"""Utilities for improving resumes based on ATS-friendly heuristics."""
+
 import re
 from typing import Dict, List, Tuple, Any
 from .keyword_analyzer import KeywordAnalyzer
@@ -8,7 +10,10 @@ import logging
 logger = logging.getLogger(__name__)
 
 class ATSOptimizer:
+    """Coordinate keyword, semantic, and formatting improvements for resumes."""
+
     def __init__(self):
+        """Instantiate analyzers used for keyword and semantic evaluation."""
         self.keyword_analyzer = KeywordAnalyzer()
         self.semantic_matcher = SemanticMatcher()
 
@@ -18,6 +23,18 @@ class ATSOptimizer:
         job_description: str,
         job_keywords: List[str]
     ) -> Dict[str, Any]:
+        """Create an optimized resume alongside metrics and suggestions.
+
+        Args:
+            resume_sections: Mapping of section name to text content.
+            job_description: Full job description text for semantic context.
+            job_keywords: Keywords extracted from the job description.
+
+        Returns:
+            Dictionary containing the original/optimized resumes, per-section
+            suggestions, matching metrics before and after optimization, and an
+            aggregate improvement score.
+        """
         optimized_sections = {}
         optimization_suggestions = {}
         metrics_before = self._calculate_metrics(resume_sections, job_keywords)
@@ -55,6 +72,7 @@ class ATSOptimizer:
         job_keywords: List[str],
         job_description: str
     ) -> Tuple[str, List[str]]:
+        """Apply section-specific optimizations and inject missing keywords."""
         suggestions = []
         optimized_text = section_text
 
@@ -83,6 +101,7 @@ class ATSOptimizer:
         job_keywords: List[str],
         job_description: str
     ) -> Tuple[str, List[str]]:
+        """Ensure the summary contains strong openings and priority keywords."""
         suggestions = []
 
         if not summary or len(summary) < 50:
@@ -105,6 +124,7 @@ class ATSOptimizer:
         experience: str,
         job_keywords: List[str]
     ) -> Tuple[str, List[str]]:
+        """Improve bullet points and overall action-verb usage for experience."""
         suggestions = []
         lines = experience.split('\n')
         optimized_lines = []
@@ -131,6 +151,7 @@ class ATSOptimizer:
         skills: str,
         job_keywords: List[str]
     ) -> Tuple[str, List[str]]:
+        """Highlight missing skills and organize them by relevance."""
         suggestions = []
 
         current_skills = self._extract_skill_list(skills)
@@ -147,6 +168,7 @@ class ATSOptimizer:
         return skills, suggestions
 
     def _generate_summary(self, job_description: str, keywords: List[str]) -> str:
+        """Produce a short professional summary anchored on leading keywords."""
         key_skills = ', '.join(keywords[:3])
         summary = f"Results-driven professional with expertise in {key_skills}. "
         summary += "Proven track record of delivering high-impact solutions and driving operational excellence. "
@@ -154,6 +176,7 @@ class ATSOptimizer:
         return summary
 
     def _enhance_with_keywords(self, text: str, keywords: List[str]) -> str:
+        """Add missing keywords by weaving them into the first sentence."""
         for keyword in keywords:
             if keyword.lower() not in text.lower():
                 insertion_point = text.find('.')
@@ -164,12 +187,14 @@ class ATSOptimizer:
         return text
 
     def _has_action_verb_start(self, text: str) -> bool:
+        """Return whether the summary begins with an action-focused phrase."""
         action_starters = ['accomplished', 'achieved', 'delivered', 'driven', 'experienced',
                           'innovative', 'results-oriented', 'strategic']
         first_word = text.split()[0].lower() if text else ''
         return any(starter in first_word for starter in action_starters)
 
     def _add_action_verb_start(self, text: str) -> str:
+        """Insert a randomly chosen action-oriented prefix to the summary."""
         if not text:
             return text
         action_starts = ['Accomplished', 'Results-driven', 'Innovative', 'Strategic']
@@ -177,6 +202,7 @@ class ATSOptimizer:
         return f"{random.choice(action_starts)} {text[0].lower()}{text[1:]}"
 
     def _is_bullet_point(self, line: str) -> bool:
+        """Check whether a line appears to be a bulleted resume entry."""
         return bool(re.match(r'^[\s]*[-•*]\s+', line))
 
     def _optimize_bullet_point(
@@ -184,6 +210,7 @@ class ATSOptimizer:
         bullet: str,
         keywords: List[str]
     ) -> Tuple[str, str]:
+        """Inject action verbs and metrics into bullet points when missing."""
         suggestion = ""
 
         if not re.match(r'^.*?\b(achieved|led|developed|managed|created|implemented)', bullet.lower()):
@@ -201,21 +228,25 @@ class ATSOptimizer:
         return bullet, suggestion
 
     def _extract_skill_list(self, skills_text: str) -> List[str]:
+        """Parse comma, bullet, or newline delimited skills into a list."""
         skills = re.split(r'[,;\n•*-]', skills_text)
         return [skill.strip() for skill in skills if skill.strip()]
 
     def _is_skill_keyword(self, keyword: str) -> bool:
+        """Heuristically determine if a keyword likely represents a skill."""
         skill_indicators = ['framework', 'language', 'tool', 'platform', 'system',
                            'software', 'technology', 'methodology']
         return (len(keyword.split()) <= 3 and
                 not any(word in keyword.lower() for word in ['years', 'experience', 'with']))
 
     def _add_skills(self, skills_text: str, new_skills: List[str]) -> str:
+        """Append missing skills to the skill section preserving existing text."""
         if skills_text.strip():
             return skills_text.rstrip() + ', ' + ', '.join(new_skills)
         return 'Skills: ' + ', '.join(new_skills)
 
     def _organize_skills_by_relevance(self, skills: str, job_keywords: List[str]) -> str:
+        """Sort skills to prioritize those overlapping with job keywords."""
         skill_list = self._extract_skill_list(skills)
         job_kw_lower = [kw.lower() for kw in job_keywords]
 
@@ -232,6 +263,7 @@ class ATSOptimizer:
         return ', '.join(organized)
 
     def _find_missing_keywords(self, text: str, keywords: List[str]) -> List[str]:
+        """Return keywords absent from the provided text."""
         text_lower = text.lower()
         return [kw for kw in keywords if kw.lower() not in text_lower]
 
@@ -240,6 +272,7 @@ class ATSOptimizer:
         text: str,
         keywords: List[str]
     ) -> Tuple[str, List[str]]:
+        """Insert missing keywords into the middle of the text when possible."""
         suggestions = []
         for keyword in keywords:
             if keyword.lower() not in text.lower():
@@ -252,6 +285,7 @@ class ATSOptimizer:
         return text, suggestions
 
     def _combine_sections(self, sections: Dict[str, str]) -> str:
+        """Create a single resume body from prioritized sections."""
         ordered_sections = ['summary', 'experience', 'skills', 'education', 'achievements', 'projects']
         combined = []
 
@@ -262,6 +296,7 @@ class ATSOptimizer:
         return '\n\n'.join(combined)
 
     def _calculate_metrics(self, resume_sections: Dict[str, str], job_keywords: List[str]) -> Dict[str, Any]:
+        """Calculate keyword coverage and action-verb metrics for comparison."""
         full_text = resume_sections.get('full_text', '')
         resume_keywords = self.keyword_analyzer.extract_keywords(full_text)
 
@@ -277,6 +312,7 @@ class ATSOptimizer:
         }
 
     def _calculate_improvement(self, before: Dict, after: Dict) -> float:
+        """Average the relative improvement across tracked metrics."""
         improvements = []
 
         if before['keyword_coverage'] > 0:

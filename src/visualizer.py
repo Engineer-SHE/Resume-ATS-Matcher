@@ -1,3 +1,5 @@
+"""Visualization utilities for resume analysis outputs."""
+
 import plotly.graph_objects as go
 import plotly.express as px
 from plotly.subplots import make_subplots
@@ -7,7 +9,10 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 class Visualizer:
+    """Create reusable Plotly/Matplotlib figures for ATS reporting."""
+
     def __init__(self):
+        """Define a consistent color palette shared across plots."""
         self.color_scheme = {
             'primary': '#2E86AB',
             'secondary': '#A23B72',
@@ -18,6 +23,7 @@ class Visualizer:
         }
 
     def create_match_gauge(self, score: float) -> go.Figure:
+        """Render a gauge chart illustrating the overall match score."""
         color = self._get_score_color(score)
 
         fig = go.Figure(go.Indicator(
@@ -55,6 +61,7 @@ class Visualizer:
         return fig
 
     def create_section_scores_chart(self, section_scores: Dict[str, float]) -> go.Figure:
+        """Generate a horizontal bar chart of section-level scores."""
         sections = list(section_scores.keys())
         scores = [score * 100 for score in section_scores.values()]
         colors = [self._get_score_color(score/100) for score in scores]
@@ -82,6 +89,7 @@ class Visualizer:
         return fig
 
     def create_keyword_coverage_chart(self, gap_analysis: Dict[str, Any]) -> go.Figure:
+        """Visualize matched, missing, and extra keywords via a pie chart."""
         labels = ['Matched Keywords', 'Missing Keywords', 'Extra Keywords']
         values = [
             len(gap_analysis['matched_keywords']),
@@ -111,6 +119,7 @@ class Visualizer:
         metrics_before: Dict[str, Any],
         metrics_after: Dict[str, Any]
     ) -> go.Figure:
+        """Compare key metrics before and after optimization."""
         metrics = ['Keyword Coverage', 'Action Verbs', 'Matched Keywords']
         before_values = [
             metrics_before['keyword_coverage'] * 100,
@@ -155,6 +164,7 @@ class Visualizer:
         return fig
 
     def create_keyword_heatmap(self, keyword_density: Dict[str, float]) -> go.Figure:
+        """Display keyword density as a small multiples style heatmap."""
         if not keyword_density:
             return go.Figure()
 
@@ -212,6 +222,7 @@ class Visualizer:
         return fig
 
     def create_skills_radar_chart(self, skills_analysis: Dict[str, List[str]]) -> go.Figure:
+        """Plot skill counts by category on a radar chart."""
         categories = ['Technical Skills', 'Soft Skills', 'Action Verbs', 'Domain Knowledge']
         values = [
             len(skills_analysis.get('technical', [])),
@@ -245,6 +256,7 @@ class Visualizer:
         return fig
 
     def create_action_verbs_chart(self, action_verb_analysis: Dict[str, Any]) -> go.Figure:
+        """Chart the most frequently used action verbs."""
         if not action_verb_analysis.get('verb_counts'):
             return go.Figure()
 
@@ -276,6 +288,7 @@ class Visualizer:
         return fig
 
     def _get_score_color(self, score: float) -> str:
+        """Map a numeric score to the semantic color palette."""
         if score >= 0.85:
             return self.color_scheme['success']
         elif score >= 0.70:
@@ -286,6 +299,7 @@ class Visualizer:
             return self.color_scheme['danger']
 
     def generate_report_plots(self, analysis_results: Dict[str, Any]) -> Dict[str, go.Figure]:
+        """Build a dictionary of figures for available analysis results."""
         plots = {}
 
         if 'overall_match' in analysis_results:
