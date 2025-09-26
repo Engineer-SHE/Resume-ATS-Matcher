@@ -1,6 +1,7 @@
+"""Keyword extraction, analysis, and scoring helpers."""
+
 import re
 from typing import Dict, List, Set, Tuple
-from collections import Counter
 import nltk
 from rake_nltk import Rake
 import spacy
@@ -10,7 +11,10 @@ import logging
 logger = logging.getLogger(__name__)
 
 class KeywordAnalyzer:
+    """Provide keyword extraction, skill detection, and action verb analytics."""
+
     def __init__(self):
+        """Load language resources and initialize keyword extraction helpers."""
         try:
             nltk.download('stopwords', quiet=True)
             nltk.download('punkt', quiet=True)
@@ -28,6 +32,7 @@ class KeywordAnalyzer:
         self.skill_categories = Config.SKILL_CATEGORIES
 
     def extract_keywords(self, text: str, top_n: int = 20) -> List[str]:
+        """Return a ranked list of representative keywords from free-form text."""
         text = text.lower()
 
         self.rake.extract_keywords_from_text(text)
@@ -52,6 +57,7 @@ class KeywordAnalyzer:
         return list(all_keywords)[:top_n]
 
     def extract_skills(self, text: str) -> Dict[str, List[str]]:
+        """Classify skills mentioned in the text into configured categories."""
         text_lower = text.lower()
         extracted_skills = {
             'technical': [],
@@ -72,6 +78,7 @@ class KeywordAnalyzer:
         return extracted_skills
 
     def _extract_technical_skills(self, text: str) -> List[str]:
+        """Identify additional technical skills via regex pattern matching."""
         patterns = {
             'programming': r'\b(python|java|c\+\+|c#|javascript|typescript|ruby|go|rust|scala|kotlin)\b',
             'frameworks': r'\b(django|flask|spring|express|react|angular|vue|svelte|next\.?js)\b',
@@ -95,6 +102,7 @@ class KeywordAnalyzer:
         resume_keywords: List[str],
         job_keywords: List[str]
     ) -> Dict[str, Any]:
+        """Compare resume keywords to job keywords and quantify overlap."""
         resume_set = set([k.lower() for k in resume_keywords])
         job_set = set([k.lower() for k in job_keywords])
 
@@ -115,6 +123,7 @@ class KeywordAnalyzer:
         }
 
     def analyze_action_verbs(self, text: str) -> Dict[str, Any]:
+        """Measure action verb usage and provide sentence examples."""
         action_verbs = [
             'achieved', 'analyzed', 'built', 'collaborated', 'created', 'designed',
             'developed', 'enhanced', 'established', 'executed', 'implemented',
@@ -151,6 +160,7 @@ class KeywordAnalyzer:
         }
 
     def keyword_density_analysis(self, text: str, keywords: List[str]) -> Dict[str, float]:
+        """Calculate the percentage density for each keyword within the text."""
         text_lower = text.lower()
         word_count = len(text_lower.split())
         density_map = {}
@@ -164,6 +174,7 @@ class KeywordAnalyzer:
         return dict(sorted(density_map.items(), key=lambda x: x[1], reverse=True))
 
     def extract_quantifiable_achievements(self, text: str) -> List[str]:
+        """Extract sentences containing measurable achievements or metrics."""
         patterns = [
             r'(?:increased|improved|reduced|saved|generated|grew|expanded).*?\d+[%$]',
             r'\d+[%$].*?(?:increase|improvement|reduction|savings|growth)',

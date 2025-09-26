@@ -1,3 +1,5 @@
+"""Extract and structure resume text from multiple document formats."""
+
 import re
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
@@ -9,7 +11,10 @@ import logging
 logger = logging.getLogger(__name__)
 
 class TextExtractor:
+    """Handle resume ingestion for PDF, Word, and plain-text documents."""
+
     def __init__(self):
+        """Compile regexes used to segment resumes into canonical sections."""
         self.section_patterns = {
             'summary': r'(?i)(summary|objective|profile|about)',
             'experience': r'(?i)(experience|employment|work\s+history|professional\s+experience)',
@@ -20,6 +25,7 @@ class TextExtractor:
         }
 
     def extract_from_file(self, file_path: str) -> str:
+        """Extract raw text from the provided resume file path."""
         file_path = Path(file_path)
 
         if not file_path.exists():
@@ -37,6 +43,7 @@ class TextExtractor:
             raise ValueError(f"Unsupported file format: {extension}")
 
     def _extract_from_pdf(self, file_path: Path) -> str:
+        """Handle PDF extraction using pdfplumber with PyPDF2 fallback."""
         text = ""
 
         try:
@@ -55,6 +62,7 @@ class TextExtractor:
         return self._clean_text(text)
 
     def _extract_from_docx(self, file_path: Path) -> str:
+        """Concatenate paragraph and table text from Word documents."""
         doc = Document(file_path)
         text = "\n".join([paragraph.text for paragraph in doc.paragraphs])
 
@@ -66,12 +74,14 @@ class TextExtractor:
         return self._clean_text(text)
 
     def _clean_text(self, text: str) -> str:
+        """Normalize whitespace and remove extraneous non-word characters."""
         text = re.sub(r'\s+', ' ', text)
         text = re.sub(r'[^\w\s\-\.\,\;\:\!\?\@\#\$\%\&\*\(\)\[\]\{\}\/\\\|\'\"]', ' ', text)
         text = text.strip()
         return text
 
     def extract_sections(self, text: str) -> Dict[str, str]:
+        """Split the resume text into common sections using keyword anchors."""
         sections = {
             'full_text': text,
             'summary': '',
@@ -113,6 +123,7 @@ class TextExtractor:
         return sections
 
     def extract_contact_info(self, text: str) -> Dict[str, str]:
+        """Parse email, phone, and LinkedIn information from text."""
         contact = {}
 
         email_pattern = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'

@@ -1,3 +1,5 @@
+"""Semantic similarity helpers leveraging sentence transformers."""
+
 import numpy as np
 from typing import Dict, List, Tuple, Any
 from sentence_transformers import SentenceTransformer
@@ -8,16 +10,21 @@ from .config import Config
 logger = logging.getLogger(__name__)
 
 class SemanticMatcher:
+    """Score semantic alignment between resume content and job descriptions."""
+
     def __init__(self, model_name: str = Config.MODEL_NAME):
+        """Load the configured sentence transformer model for embeddings."""
         self.model = SentenceTransformer(model_name)
         self.section_weights = Config.SECTION_WEIGHTS
 
     def encode_text(self, text: str) -> np.ndarray:
+        """Encode text into an embedding, returning zeros when empty."""
         if not text or not text.strip():
             return np.zeros(self.model.get_sentence_embedding_dimension())
         return self.model.encode(text, convert_to_numpy=True)
 
     def calculate_similarity(self, text1: str, text2: str) -> float:
+        """Compute cosine similarity between two text inputs."""
         if not text1 or not text2:
             return 0.0
 
@@ -36,6 +43,7 @@ class SemanticMatcher:
         resume_sections: Dict[str, str],
         job_sections: Dict[str, str]
     ) -> Dict[str, Any]:
+        """Aggregate section-level semantic scores and supporting analysis."""
         overall_match = 0.0
         section_scores = {}
         detailed_analysis = {}
@@ -75,6 +83,7 @@ class SemanticMatcher:
         }
 
     def _generate_recommendation(self, score: float) -> str:
+        """Produce a user-facing recommendation based on the match score."""
         if score >= 0.85:
             return "Excellent match! Your resume strongly aligns with the job requirements."
         elif score >= 0.70:
@@ -89,6 +98,7 @@ class SemanticMatcher:
         resume_text: str,
         job_requirements: List[str]
     ) -> List[Tuple[str, float]]:
+        """Identify requirements that are semantically distant from the resume."""
         gaps = []
         resume_embedding = self.encode_text(resume_text)
 
@@ -109,6 +119,7 @@ class SemanticMatcher:
         keywords: List[str],
         target_text: str
     ) -> List[Tuple[str, float]]:
+        """Rank keywords by their semantic relevance to the target text."""
         target_embedding = self.encode_text(target_text)
         ranked_keywords = []
 

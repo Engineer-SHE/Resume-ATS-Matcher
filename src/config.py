@@ -1,10 +1,13 @@
+"""Centralized configuration constants used across the application."""
+
 from dataclasses import dataclass
 from typing import List, Dict, Any
-import os
 from pathlib import Path
 
 @dataclass
 class Config:
+    """Convenience namespace wrapping path, model, and scoring constants."""
+
     PROJECT_ROOT = Path(__file__).parent.parent
     DATA_DIR = PROJECT_ROOT / "data"
     UPLOAD_DIR = DATA_DIR / "uploads"
@@ -38,5 +41,6 @@ class Config:
 
     @classmethod
     def setup_directories(cls):
+        """Create required data directories if they do not already exist."""
         for dir_path in [cls.DATA_DIR, cls.UPLOAD_DIR, cls.OUTPUT_DIR]:
             dir_path.mkdir(parents=True, exist_ok=True)
