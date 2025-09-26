@@ -1,0 +1,10 @@
+# Essential packages only - install these first
+streamlit
+pandas
+plotly
+PyPDF2
+python-docx
+pdfplumber
+nltk
+rake-nltk
+textstat

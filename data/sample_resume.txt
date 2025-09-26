@@ -1,0 +1,54 @@
+JOHN DOE
+Software Engineer | john.doe@email.com | (555) 123-4567 | linkedin.com/in/johndoe
+
+SUMMARY
+Experienced software engineer with 5+ years developing scalable web applications and microservices. Proficient in Python, JavaScript, and cloud technologies. Passionate about building efficient solutions and leading cross-functional teams.
+
+EXPERIENCE
+Senior Software Engineer | Tech Corp | 2020 - Present
+- Developed RESTful APIs serving 1M+ daily requests using Python Flask and FastAPI
+- Implemented microservices architecture reducing system latency by 40%
+- Led team of 4 engineers in migrating legacy monolith to cloud-native architecture
+- Optimized database queries resulting in 60% improvement in response times
+- Mentored junior developers and conducted code reviews
+
+Software Engineer | StartupXYZ | 2018 - 2020
+- Built full-stack web applications using React and Node.js
+- Designed and implemented CI/CD pipelines using Jenkins and Docker
+- Collaborated with product team to deliver features ahead of schedule
+- Reduced bug count by 35% through comprehensive unit testing
+- Participated in agile development with 2-week sprints
+
+Junior Developer | WebDev Inc | 2017 - 2018
+- Created responsive web interfaces using HTML, CSS, and JavaScript
+- Assisted in database design and optimization
+- Wrote technical documentation for internal APIs
+- Resolved customer-reported issues within SLA requirements
+
+EDUCATION
+Bachelor of Science in Computer Science | State University | 2017
+- GPA: 3.8/4.0
+- Relevant Coursework: Data Structures, Algorithms, Database Systems, Software Engineering
+
+SKILLS
+Programming Languages: Python, JavaScript, Java, SQL, TypeScript
+Frameworks: React, Node.js, Flask, Django, Express, FastAPI
+Databases: PostgreSQL, MongoDB, Redis, MySQL
+Cloud & DevOps: AWS, Docker, Kubernetes, Jenkins, GitLab CI/CD
+Tools: Git, JIRA, Confluence, VS Code, PyCharm
+
+CERTIFICATIONS
+- AWS Certified Solutions Architect - Associate
+- Python Professional Certificate
+- Agile Scrum Master Certification
+
+PROJECTS
+E-commerce Platform
+- Architected scalable e-commerce platform handling 10K+ concurrent users
+- Integrated payment gateways and inventory management systems
+- Achieved 99.9% uptime through robust error handling and monitoring
+
+Open Source Contributions
+- Active contributor to several open-source Python libraries
+- Maintained documentation for popular web framework
+- Created utility packages with 1000+ downloads

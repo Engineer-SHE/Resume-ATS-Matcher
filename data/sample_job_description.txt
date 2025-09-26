@@ -1,0 +1,63 @@
+Senior Full Stack Developer - Remote
+
+About Us:
+We are a fast-growing fintech startup revolutionizing digital payments. We're looking for a talented Senior Full Stack Developer to join our engineering team and help build the next generation of payment solutions.
+
+Position Overview:
+We are seeking an experienced Full Stack Developer with strong expertise in modern web technologies and cloud platforms. The ideal candidate will have a proven track record of building scalable applications and leading technical initiatives.
+
+Key Responsibilities:
+- Design, develop, and maintain full-stack web applications using React, Node.js, and Python
+- Architect and implement RESTful APIs and microservices
+- Collaborate with cross-functional teams including product, design, and QA
+- Lead code reviews and mentor junior developers
+- Implement and maintain CI/CD pipelines for automated deployment
+- Optimize application performance and ensure scalability
+- Participate in system design and architecture decisions
+- Write clean, maintainable, and well-documented code
+- Troubleshoot and debug production issues
+- Stay current with emerging technologies and industry best practices
+
+Required Qualifications:
+- Bachelor's degree in Computer Science or related field
+- 5+ years of experience in full-stack development
+- Strong proficiency in JavaScript/TypeScript and Python
+- Extensive experience with React, Redux, and modern frontend frameworks
+- Solid experience with Node.js and Express.js
+- Expertise in database design with PostgreSQL and MongoDB
+- Hands-on experience with AWS services (EC2, S3, Lambda, RDS)
+- Proficient with Docker and container orchestration (Kubernetes preferred)
+- Experience with Agile/Scrum methodologies
+- Strong understanding of software design patterns and principles
+- Excellent problem-solving and analytical skills
+- Strong communication and collaboration abilities
+
+Preferred Qualifications:
+- Experience in fintech or payment processing systems
+- Knowledge of GraphQL and Apollo
+- Familiarity with message queuing systems (RabbitMQ, Kafka)
+- Experience with automated testing frameworks (Jest, Pytest, Cypress)
+- AWS certification
+- Experience with Infrastructure as Code (Terraform, CloudFormation)
+- Knowledge of security best practices and OWASP standards
+- Experience with monitoring tools (Datadog, New Relic, ELK stack)
+- Contributions to open-source projects
+
+Technical Stack:
+- Frontend: React, Redux, TypeScript, Next.js, Material-UI
+- Backend: Node.js, Python, Express, FastAPI
+- Databases: PostgreSQL, MongoDB, Redis
+- Cloud: AWS (primary), Docker, Kubernetes
+- Tools: Git, Jenkins, JIRA, Confluence, Slack
+
+What We Offer:
+- Competitive salary ($130,000 - $160,000)
+- Equity compensation
+- Fully remote work environment
+- Flexible working hours
+- Health, dental, and vision insurance
+- Professional development budget
+- Team building events and conferences
+
+How to Apply:
+Please submit your resume and a cover letter explaining why you're interested in this position. Include links to your GitHub profile and any relevant projects or portfolio items.
