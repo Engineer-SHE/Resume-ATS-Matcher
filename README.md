@@ -118,6 +118,13 @@ src/
 └── config.py            # Configuration and settings
 ```
 
+## 🧪 Example Projects
+
+- **Project 5: Customer Review Topic Modelling** – Load a dataset of product and service reviews and uncover recurring themes
+  with an unsupervised Latent Dirichlet Allocation pipeline. The project lives in
+  [`projects/customer_review_topic_modeling`](projects/customer_review_topic_modeling) and includes a runnable script plus a
+  sample dataset to get you started.
+
 ### Key Technologies
 - **NLP Models**: Sentence-BERT for semantic similarity
 - **Text Processing**: spaCy for NER and linguistic analysis
